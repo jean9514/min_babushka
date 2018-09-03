@@ -12,26 +12,44 @@
 <!-- CSS  -->
     <style>
 
+        body{
+
+        }
+
+        header{
+
+        }
+
+        h1{
+
+            text-align: center;
+        }
+
+        nav{
+             text-align: center;
+
+        }
+
         img {
             width: 200px;
             height: auto;
+
         }
 
         article {
             clear: both;
             border: 2px solid black;
+            background-color: #E53A0D;
 
         }
 
-        main {
+        section {
             display: grid;
             grid-gap: 10px;
             border: 2px solid #ccc;
 
+
         }
-
-
-/*  min sidde er ikke længer responsiv... AAARGHHHH tobe fixed tirsdag!!!       */
 
 
         /* siden gøres repsonsiv via @mediaqueries sat på main*/
@@ -72,7 +90,7 @@
 
     <section class="menu-container">
 
-
+<!-- kan denne ikke slettes hvis "bare" man ligeledes flytter grid ud på ARTICLE og det samme gør sig gælende for @media. tjek med MARTIN tirsdag-->
     </section>
 
     <template class="ret-template">
@@ -83,8 +101,6 @@
             <p class="ret-kortbeskrivelse"> </p>
             <p class="ret-pris"> </p>
             <p class="ret-kategori"> </p>
-
-
 
             <!--
             <p class="ret-id"> </p>
@@ -97,8 +113,7 @@
 
 <!-- JSCRIPT -->
     <script>
-        // global variable af Array retter.
-
+        // global variable af Array retter. samt variablen kategoriFilter
         let retter = [];
         let kategoriFilter = "alle";
 
