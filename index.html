@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="da">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Babushka</title>
+
+
+
+<!-- CSS  -->
+    <style>
+
+        img {
+            width: 200px;
+            height: auto;
+        }
+
+        article {
+            clear: both;
+            border: 2px solid black;
+
+        }
+
+        main {
+            display: grid;
+            grid-gap: 10px;
+            border: 2px solid #ccc;
+
+        }
+
+
+/*  min sidde er ikke længer responsiv... AAARGHHHH tobe fixed tirsdag!!!       */
+
+
+        /* siden gøres repsonsiv via @mediaqueries sat på main*/
+        @media screen and (min-width: 480px) {
+
+            section {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media screen and (min-width: 900px) {
+
+            section {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+    </style>
+
+
+</head>
+
+<!-- HTML -->
+
+<body>
+    <header>
+        <h1> Menu</h1>
+        <nav>
+
+            <button class="foretter" data-kategori="forretter">Foretter</button>
+            <button class="hovedret" data-kategori="hovedretter">Hovedretter</button>
+            <button class="desserter" data-kategori="desserter">Desserter</button>
+            <button class="drikkevare" data-kategori="drikkevarer">Drikkevarer</button>
+
+        </nav>
+
+    </header>
+
+
+    <section class="menu-container">
+
+
+    </section>
+
+    <template class="ret-template">
+        <article>
+
+            <h2 class="ret-navn"></h2>
+            <img class="ret-billede" src="" alt="">
+            <p class="ret-kortbeskrivelse"> </p>
+            <p class="ret-pris"> </p>
+            <p class="ret-kategori"> </p>
+
+
+
+            <!--
+            <p class="ret-id"> </p>
+           <p class="ret-langbeskrivelse"> </p>
+            <p class="ret-oprindelsesregion"> </p>
+
+-->
+        </article>
+    </template>
+
+<!-- JSCRIPT -->
+    <script>
+        // global variable af Array retter.
+
+        let retter = [];
+        let kategoriFilter = "alle";
+
+        // hele sidens content loades ved start
+        document.addEventListener("DOMContentLoaded", start);
+
+        // functionen start henter json filen
+        function start() {
+
+            hentJson();
+            forberedFiltrering();
+        }
+
+        function forberedFiltrering() {
+            document.querySelectorAll("nav button").forEach(knap => {
+                knap.addEventListener("click", () => {
+
+                    //filtrerings variablen. her filtreres efter hvilken data-kategori der er valgt ved CLICK.
+                    kategoriFilter = knap.getAttribute("data-kategori");
+                    visRetter();
+                });
+            });
+
+        }
+
+
+        //definer functionen hentJson
+        async function hentJson() {
+
+            // her skal vi hente Json filen ind ved at kalde på den.
+            let myJsonData = await fetch("menu.json");
+
+            //laver filen om til en json fil
+            retter = await myJsonData.json();
+            visRetter();
+        }
+
+
+        function visRetter() {
+
+            // globale variabeler
+            let display = document.querySelector(".menu-container");
+            let temp = document.querySelector(".ret-template");
+
+            display.textContent = "";
+
+            //løb arry af retter igennem og overholdes betingelserne vises valgte variable.
+            retter.forEach(ret => {
+
+                if (ret.kategori == kategoriFilter || kategoriFilter == "alle") {
+
+                    console.log(ret.kategori, kategoriFilter);
+
+                    // giver os indholdet af <article>
+                    let klon = temp.cloneNode(true).content;
+
+
+                    // LAVER klon og indsætter data i html'en
+                    klon.querySelector("h2").textContent = ret.navn;
+                    klon.querySelector(".ret-billede").src = "imgs/small/" + ret.billede + "-sm.jpg";
+                    klon.querySelector(".ret-billede").alt = "billede af" + ret.billede;
+                    klon.querySelector(".ret-kortbeskrivelse").textContent = ret.kortbeskrivelse;
+                    klon.querySelector(".ret-pris").textContent = ret.pris;
+
+
+                    //                klon.querySelector(".ret-id").textContent = ret.id;
+                    //                klon.querySelector(".ret-kategori").textContent = ret.kategori;
+                    //                klon.querySelector(".ret-langbeskrivelse").textContent = ret.langbeskrivelse;
+                    //                klon.querySelector(".ret-oprindelsesregion").textContent = ret.oprindelsesregion;
+
+
+
+                    //VISER klon i html, altså klon bliver sat ind i modtager.
+                    display.appendChild(klon);
+                }
+
+            });
+        }
+    </script>
+
+    <footer> Babushka Projekt af Jeanette Sofie Bundgaard Madsen</footer>
+</body>
+
+</html>
