@@ -5,28 +5,21 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
-    <title>Babushka</title>
+    <title>Babushka Modal View</title>
 
 
 
-<!-- CSS  -->
+    <!-- CSS  -->
     <style>
 
-        body{
 
-        }
-
-        header{
-
-        }
-
-        h1{
+        h1 {
 
             text-align: center;
         }
 
-        nav{
-             text-align: center;
+        nav {
+            text-align: center;
 
         }
 
@@ -66,6 +59,42 @@
                 grid-template-columns: repeat(3, 1fr);
             }
         }
+
+          #modal {
+            width: 100vw;
+            height: 100vh;
+            position: fixed;
+            background-color: rgba(0, 0, 0, .7);
+            text-align: center;
+            /*display: none;*/
+            /*opacity bruges her i stedet for display da vi ønsker en fade effect på vores visning af billeder*/
+            opacity: 0;
+            /*SKAL sættes til NONE for at kunne vise billedet der er valgt.            */
+            pointer-events: none;
+            transition: all 1s;
+
+
+        }
+
+        #modal-content {
+            width: 70vw;
+            height: 70vh;
+            background-color: rgba(250, 250, 250, 1);
+            margin:0 auto;
+
+        }
+
+        #modal.vis {
+            opacity: 1;
+            pointer-events: all;
+
+        }
+
+        .modal-billede {
+            height: 50vh;
+            object-fit: scale-down;
+        }
+
     </style>
 
 
@@ -87,10 +116,21 @@
 
     </header>
 
+    <!--MODAL VIEW-->
+    <section id="modal">
+
+        <div id="modal-content">
+           <button>LUK</button>
+            <h2 class="modal-navn"></h2>
+            <img class="modal-billede" src="" alt="">
+            <p class="modal-langbeskrivelse"> </p>
+            <p class="modal-oprindelsesregion"> </p>
+        </div>
+    </section>
 
     <section class="menu-container">
+        <!--vi snakker til sectionen i @media og visRetter, så derfor skal den være her selvom den er tom-->
 
-<!-- kan denne ikke slettes hvis "bare" man ligeledes flytter grid ud på ARTICLE og det samme gør sig gælende for @media. tjek med MARTIN tirsdag-->
     </section>
 
     <template class="ret-template">
@@ -102,18 +142,13 @@
             <p class="ret-pris"> </p>
             <p class="ret-kategori"> </p>
 
-            <!--
-            <p class="ret-id"> </p>
-           <p class="ret-langbeskrivelse"> </p>
-            <p class="ret-oprindelsesregion"> </p>
-
--->
         </article>
     </template>
 
-<!-- JSCRIPT -->
+    <!-- JSCRIPT -->
     <script>
         // global variable af Array retter. samt variablen kategoriFilter
+        let modal = document.querySelector("#modal");
         let retter = [];
         let kategoriFilter = "alle";
 
@@ -174,17 +209,17 @@
                     // LAVER klon og indsætter data i html'en
                     klon.querySelector("h2").textContent = ret.navn;
                     klon.querySelector(".ret-billede").src = "imgs/small/" + ret.billede + "-sm.jpg";
+                    klon.querySelector(".ret-billede").addEventListener("click", () => {
+                        visModal(ret);
+                    })
                     klon.querySelector(".ret-billede").alt = "billede af" + ret.billede;
                     klon.querySelector(".ret-kortbeskrivelse").textContent = ret.kortbeskrivelse;
                     klon.querySelector(".ret-pris").textContent = ret.pris;
+                    klon.querySelector(".ret-kategori").textContent = ret.kategori;
+
 
 
                     //                klon.querySelector(".ret-id").textContent = ret.id;
-                    //                klon.querySelector(".ret-kategori").textContent = ret.kategori;
-                    //                klon.querySelector(".ret-langbeskrivelse").textContent = ret.langbeskrivelse;
-                    //                klon.querySelector(".ret-oprindelsesregion").textContent = ret.oprindelsesregion;
-
-
 
                     //VISER klon i html, altså klon bliver sat ind i modtager.
                     display.appendChild(klon);
@@ -192,9 +227,30 @@
 
             });
         }
+
+        function visModal(retten) {
+
+            //ved klik på billedet vises modal vindu med indhold.
+            modal.classList.add("vis");
+            modal.querySelector(".modal-navn").textContent = retten.navn;
+            modal.querySelector(".modal-billede").src = "imgs/small/" + retten.billede + "-sm.jpg";
+            modal.querySelector(".modal-langbeskrivelse").textContent = retten.navn;
+            modal.querySelector(".modal-oprindelsesregion").textContent = retten.oprindelsesregion;
+
+
+            //ved klik fjernes modal vindu med indholdet.
+            modal.querySelector("button").addEventListener("click", skjulModal);
+        }
+
+        function skjulModal() {
+            //            window.scrollTo(0);
+            modal.classList.remove("vis");
+        }
     </script>
 
     <footer> Babushka Projekt af Jeanette Sofie Bundgaard Madsen</footer>
 </body>
 
 </html>
+
+
