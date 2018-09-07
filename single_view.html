@@ -107,10 +107,15 @@
 
     <!-- JSCRIPT -->
     <script>
-        // global variable af Array retter. samt variablen kategoriFilter
+        //retuner visningen af søgt parameter( window.location.href) fra index_single.html
         let urlParams = new URLSearchParams(window.location.search);
+
+        //finder det specifikke url parameter.
         let id = urlParams.get("id");
+
+        // global variable af Array retter.
         let retter = [];
+
         // globale variabeler
         let dest = document.querySelector(".menu-container");
 

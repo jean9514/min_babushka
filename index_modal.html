@@ -115,8 +115,10 @@
     </header>
 
     <!--MODAL VIEW-->
-    <section id="modal">
 
+
+    <section id="modal">
+        <!-- Hele denne section er som udgangspunkt skrult fra start-->
         <div id="modal-content">
             <button>LUK</button>
             <h2 class="modal-navn"></h2>
@@ -202,13 +204,15 @@
 
                     console.log(ret.kategori, kategoriFilter);
 
-                    // giver os indholdet af <article>
+                    // laver klon af indholdet i <article>
                     let klon = temp.cloneNode(true).content;
 
 
-                    // LAVER klon og indsætter data i html'en
+                    // Indsætter værdier i klon( navn, billede osv)
                     klon.querySelector("h2").textContent = ret.navn;
                     klon.querySelector(".ret-billede").src = "imgs/small/" + ret.billede + "-sm.jpg";
+
+                    //kalder funktionen visModal når der klikkes på knap.
                     klon.querySelector(".ret-billede").addEventListener("click", () => {
                         visModal(ret);
                     })
@@ -218,7 +222,7 @@
                     klon.querySelector(".ret-kategori").textContent = ret.kategori;
 
 
-                    //VISER klon i html, altså klon bliver sat ind i modtager.
+                    //VISER klon i html, altså klon bliver sat over i modtager dest, dest(ination) er her "menu-conteiner".
                     display.appendChild(klon);
                 }
 
@@ -240,7 +244,6 @@
         }
 
         function skjulModal() {
-            //            window.scrollTo(0);
             modal.classList.remove("vis");
         }
 

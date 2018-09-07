@@ -157,13 +157,15 @@
 
                     //console.log(ret.kategori, kategoriFilter);
 
-                    // giver os indholdet af <article>
+                    // laver klon af indholdet i <article>
                     let klon = temp.cloneNode(true).content;
 
 
-                    // LAVER klon og indsætter data i html'en
+                    // Indsætter værdier i klon( navn, billede osv)
                     klon.querySelector("h2").textContent = ret.navn;
                     klon.querySelector(".ret-billede").src = "imgs/small/" + ret.billede + "-sm.jpg";
+
+                    //når der klikkes på billedet, blir man sendt videre til den pågælende href henvisning med pågælende id.
                     klon.querySelector(".ret-billede").addEventListener("click", () => {
                         window.location.href = "single_view.html?id=" + ret.id;
 
@@ -173,7 +175,7 @@
                     klon.querySelector(".ret-pris").textContent = ret.pris;
                     klon.querySelector(".ret-kategori").textContent = ret.kategori;
 
-                    //VISER klon i html, altså klon bliver sat ind i modtager.
+                    //VISER klon i html, altså klon bliver sat over i modtager dest, dest(ination) er her "menu-conteiner".
                     dest.appendChild(klon);
                 }
 
